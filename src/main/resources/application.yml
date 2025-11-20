@@ -1,0 +1,7 @@
+
+
+security:
+  jwt:
+    secret: "R2Vx6U7pH9g5qZDzX5p38s9qVoZ7hWJkDxpH0dN3E4A="
+
+
