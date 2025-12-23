@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="top|center_horizontal"
+    android:orientation="vertical"
+    android:padding="24dp">
+
+    <ImageView
+        android:id="@+id/lockIcon"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:src="@drawable/ic_lock" />
+
+    <TextView
+        android:id="@+id/messageText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Checking permission..." />
+
+    
+    <EditText
+        android:id="@+id/usernameField"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Username"
+        android:visibility="gone"
+        android:layout_marginTop="24dp" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/grantButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Yetki Ver"
+        android:visibility="gone"
+        android:layout_marginTop="16dp"
+        style="@style/Widget.Material3.Button"
+        android:backgroundTint="@color/green" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/addUserButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add User"
+        android:visibility="gone"
+        android:layout_marginTop="8dp"
+        style="@style/Widget.Material3.Button"
+        android:backgroundTint="@color/primary" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/revokeButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Yetki Al"
+        android:visibility="gone"
+        android:layout_marginTop="8dp"
+        style="@style/Widget.Material3.Button"
+        android:backgroundTint="@color/red" />
+
+    <LinearLayout
+        android:id="@+id/timezoneContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:visibility="gone"
+        android:layout_marginTop="16dp">
+
+        <EditText
+            android:id="@+id/timezoneField1"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:hint="Timezone"/>
+
+        <EditText
+            android:id="@+id/timezoneField2"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:hint="Timezone2"
+            android:layout_marginStart="8dp"/>
+    </LinearLayout>
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/changeTzButton"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Change Time Zone"
+        android:visibility="gone"
+        android:layout_marginTop="8dp"
+        style="@style/Widget.Material3.Button"
+        android:backgroundTint="@color/primary" />
+
+    
+</LinearLayout>
