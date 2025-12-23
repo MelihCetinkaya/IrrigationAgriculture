@@ -3,7 +3,6 @@ package com.springexample.irrigationagriculture.entity.abstractClasses;
 import com.springexample.irrigationagriculture.entity.PlantHouse;
 import com.springexample.irrigationagriculture.entity.enums.Role;
 import com.springexample.irrigationagriculture.entity.enums.TimeZone;
-import com.springexample.irrigationagriculture.exception.exceptions.PasswordLengthException;
 import jakarta.persistence.*;
 import org.springframework.lang.NonNull;
 import org.springframework.security.core.GrantedAuthority;

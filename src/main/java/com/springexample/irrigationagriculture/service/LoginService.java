@@ -7,10 +7,12 @@ import com.springexample.irrigationagriculture.dto.responseDto.UserToken;
 import com.springexample.irrigationagriculture.entity.User;
 import com.springexample.irrigationagriculture.entity.abstractClasses.Person;
 import com.springexample.irrigationagriculture.entity.enums.Role;
+import com.springexample.irrigationagriculture.entity.enums.TimeZone;
 import com.springexample.irrigationagriculture.exception.exceptions.AlreadyRegisteredUsernameException;
 import com.springexample.irrigationagriculture.exception.exceptions.PasswordLengthException;
 import com.springexample.irrigationagriculture.repository.PersonRepo;
 import com.springexample.irrigationagriculture.repository.UserRepo;
+import com.springexample.irrigationagriculture.service.otherServices.JwtService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -46,12 +48,11 @@ public class LoginService {
     }
 
     @Transactional
-    public UserToken saveUser(UserDto userDto) throws AlreadyRegisteredUsernameException, PasswordLengthException {
+    public String saveUser(UserDto userDto) throws AlreadyRegisteredUsernameException, PasswordLengthException {
 
-        if(userRepo.findUserByUsername(userDto.getUsername())!=null){
-
+        userRepo.findByUsername(userDto.getUsername()).ifPresent(u -> {
             throw new AlreadyRegisteredUsernameException();
-        }
+        });
 
         if(userDto.getPassword().length()<6 || userDto.getPassword().length()>15 ){
             throw new PasswordLengthException();
@@ -62,12 +63,13 @@ public class LoginService {
         user1.setUsername(userDto.getUsername());
         user1.setPassword(passwordEncoder.encode(userDto.getPassword()));
         user1.setRole(Role.ROLE_USER);
+        user1.setCommand(Boolean.FALSE);
+        user1.setTimeZone(TimeZone.Tfree);
+        user1.setTimeZone2(TimeZone.Tfree);
 
         userRepo.save(user1);
 
-        var token = jwtService.generateToken(user1);
-        return new UserToken.Builder((String)token).build();
-
+        return "user is added";
     }
 
 }

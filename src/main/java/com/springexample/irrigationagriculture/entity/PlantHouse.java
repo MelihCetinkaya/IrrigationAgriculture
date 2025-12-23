@@ -1,6 +1,7 @@
 package com.springexample.irrigationagriculture.entity;
 
 import com.springexample.irrigationagriculture.entity.abstractClasses.Person;
+import com.springexample.irrigationagriculture.entity.enums.IrrigationMode;
 import jakarta.persistence.*;
 
 import java.util.ArrayList;
@@ -18,6 +19,11 @@ public class PlantHouse {
 
     @OneToOne
     private Amounts amounts;
+
+    @OneToOne
+    private NotificationTools notificationTools;
+
+    private IrrigationMode irrigationMode;
 
     @OneToOne
     @JoinColumn(name = "valve_id")
@@ -68,5 +74,21 @@ public class PlantHouse {
 
     public void setValve(Valve valve) {
         this.valve = valve;
+    }
+
+    public NotificationTools getNotificationTools() {
+        return notificationTools;
+    }
+
+    public void setNotificationTools(NotificationTools notificationTools) {
+        this.notificationTools = notificationTools;
+    }
+
+    public IrrigationMode getIrrigationMode() {
+        return irrigationMode;
+    }
+
+    public void setIrrigationMode(IrrigationMode irrigationMode) {
+        this.irrigationMode = irrigationMode;
     }
 }

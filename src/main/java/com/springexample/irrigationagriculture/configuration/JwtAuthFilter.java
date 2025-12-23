@@ -1,7 +1,7 @@
 package com.springexample.irrigationagriculture.configuration;
 
 
-import com.springexample.irrigationagriculture.service.JwtService;
+import com.springexample.irrigationagriculture.service.otherServices.JwtService;
 import io.jsonwebtoken.ExpiredJwtException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -44,8 +44,8 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 
 
         jwt = header.substring(7).trim();
-        System.out.println("CLEAN TOKEN = [" + jwt + "]");
-        System.out.println("LENGTH = " + jwt.length());
+        //System.out.println("CLEAN TOKEN = [" + jwt + "]");
+        //System.out.println("LENGTH = " + jwt.length());
 
         try {
             jwtService.findUsername(jwt);

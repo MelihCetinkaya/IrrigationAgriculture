@@ -4,9 +4,12 @@ import com.springexample.irrigationagriculture.entity.Admin;
 import com.springexample.irrigationagriculture.entity.PlantHouse;
 import com.springexample.irrigationagriculture.entity.User;
 import com.springexample.irrigationagriculture.entity.enums.TimeZone;
-import com.springexample.irrigationagriculture.exception.GeneralException;
+import com.springexample.irrigationagriculture.exception.exceptions.NoUserFoundException;
 import com.springexample.irrigationagriculture.repository.*;
+import com.springexample.irrigationagriculture.service.otherServices.JwtService;
 import org.springframework.stereotype.Service;
+
+import java.util.Set;
 
 
 @Service
@@ -27,43 +30,58 @@ public class AdminService {
 
     }
 
-    public void changeCommand(String token,String username,Boolean value) throws GeneralException {
+    public String changeCommand(String token,String username,Boolean value) throws NoUserFoundException {
 
         Admin admin = (Admin) personRepo.findByUsername(jwtService.findUsername(token)).orElseThrow();
+        User user = userRepo.findByUsername(username).orElseThrow(NoUserFoundException::new);
 
-        User user =admin.getUsers().stream()
-                .filter(u -> u.getUsername().equalsIgnoreCase(username))
-                .findFirst()
-                .orElseThrow(GeneralException::new);
+        if(!admin.getUsers().contains(user)){
+            System.out.println("There is no such user added to your system.");
+            return "There is no such user added to your system.";
+        }
 
         user.setCommand(value);
         userRepo.save(user);
+        return "The user's authorization has been changed";
 
     }
 
-    public void assignScheduler(String token, String username ,TimeZone timeZone,TimeZone timeZone2)
-            throws GeneralException {
+    public String assignScheduler(String token, String username ,String time,String time2)
+            throws  NoUserFoundException {
 
         Admin admin = (Admin) personRepo.findByUsername(jwtService.findUsername(token)).orElseThrow();
+        User user = userRepo.findByUsername(username).orElseThrow(NoUserFoundException::new);
 
-        User user =admin.getUsers().stream()
-                .filter(u -> u.getUsername().equalsIgnoreCase(username))
-                .findFirst()
-                .orElseThrow(GeneralException::new);
+        Set<String> validTimes = Set.of("0", "4", "8", "12", "16", "20", "free");
 
-        user.setTimeZone(timeZone);
-        user.setTimeZone2(timeZone2);
+        if (!validTimes.contains(time) || !validTimes.contains(time2)) {
+            return "You can only enter one of the following values: 0, 4, 8, 12, 16, 20, free";
+        }
+
+        TimeZone timeZone3 = TimeZone.valueOf("T" + time);
+        TimeZone timeZone4 = TimeZone.valueOf("T" + time2);
+
+
+        if(!admin.getUsers().contains(user)){
+            System.out.println("There is no such user added to your system.");
+            return "There is no such user added to your system." ;
+        }
+
+        user.setTimeZone(timeZone3);
+        user.setTimeZone2(timeZone4);
         userRepo.save(user);
 
+        return "user's time intervals have been changed.";
+
     }
 
-    public void addUser(String token,String username){
+    public String addUser(String token,String username) throws NoUserFoundException {
 
         Admin admin = (Admin) personRepo.findByUsername(jwtService.findUsername(token)).orElseThrow();
+        User user = userRepo.findByUsername(username).orElseThrow(NoUserFoundException::new);
 
         if(admin.getUsers().stream().noneMatch(u -> u.getUsername().equalsIgnoreCase(username))){
-            admin.getUsers().add(userRepo.findUserByUsername(username));
-            User user = (User) personRepo.findByUsername(username).orElseThrow();
+            admin.getUsers().add(user);
             PlantHouse pt;
             pt=admin.getPlantHouse();
             user.setAdmin(admin);
@@ -73,8 +91,11 @@ public class AdminService {
             plantHouseRepo.save(pt);
             userRepo.save(user);
             adminRepo.save(admin);
+
+            return "user is added to your system";
         }else{
         System.out.println("already added before");}
+        return "already added before";
 
     }
 

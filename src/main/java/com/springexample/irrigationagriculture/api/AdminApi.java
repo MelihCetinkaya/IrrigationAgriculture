@@ -2,7 +2,9 @@ package com.springexample.irrigationagriculture.api;
 
 import com.springexample.irrigationagriculture.entity.enums.TimeZone;
 import com.springexample.irrigationagriculture.exception.GeneralException;
+import com.springexample.irrigationagriculture.exception.exceptions.NoUserFoundException;
 import com.springexample.irrigationagriculture.service.AdminService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -17,25 +19,25 @@ public class AdminApi {
 
 
     @PostMapping("/changeCommand")
-    public void changeCommand(@RequestHeader("Authorization") String token,@RequestParam String username,@RequestParam Boolean value)
-    throws GeneralException {
+    public ResponseEntity<String> changeCommand(@RequestHeader("Authorization") String token, @RequestParam String username, @RequestParam Boolean value)
+            throws GeneralException, NoUserFoundException {
 
-        adminService.changeCommand(token,username,value);
+        return ResponseEntity.ok(adminService.changeCommand(token,username,value));
 
     }
 
     @PostMapping("/assignScheduler")
-    public void assignScheduler(@RequestHeader("Authorization")
-     String token,@RequestParam String username,@RequestParam TimeZone timeZone,@RequestParam TimeZone timeZone2) throws GeneralException {
+    public ResponseEntity<String> assignScheduler(@RequestHeader("Authorization")
+     String token,@RequestParam String username,@RequestParam String time,@RequestParam String time2) throws GeneralException, NoUserFoundException {
 
-        adminService.assignScheduler(token,username,timeZone,timeZone2);
+        return ResponseEntity.ok(adminService.assignScheduler(token,username,time,time2));
 
     }
 
     @PostMapping("/addUser")
-    public void addUser(@RequestHeader("Authorization") String token,@RequestParam String username) throws GeneralException {
+    public ResponseEntity<String> addUser(@RequestHeader("Authorization") String token,@RequestParam String username) throws GeneralException, NoUserFoundException {
 
-        adminService.addUser(token,username);
+        return ResponseEntity.ok(adminService.addUser(token,username));
 
     }
 

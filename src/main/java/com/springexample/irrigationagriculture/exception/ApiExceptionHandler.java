@@ -1,6 +1,7 @@
 package com.springexample.irrigationagriculture.exception;
 
 import com.springexample.irrigationagriculture.exception.exceptions.AlreadyRegisteredUsernameException;
+import com.springexample.irrigationagriculture.exception.exceptions.NoUserFoundException;
 import com.springexample.irrigationagriculture.exception.exceptions.PasswordLengthException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -20,5 +21,8 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler({PasswordLengthException.class})
     public String passwordLength(){ return "Your password length must be between 6 and 15 characters";}
+
+    @ExceptionHandler({NoUserFoundException.class})
+    public String noUserFound(){return "There is no such registered user";}
 
 }

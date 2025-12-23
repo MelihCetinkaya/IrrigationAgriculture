@@ -29,7 +29,7 @@ public class LoginApi {
     }
 
     @PostMapping("/saveUser")
-    public ResponseEntity<UserToken> saveUser(@RequestBody UserDto userDto) throws AlreadyRegisteredUsernameException, PasswordLengthException {
+    public ResponseEntity<String> saveUser(@RequestBody UserDto userDto) throws AlreadyRegisteredUsernameException, PasswordLengthException {
         
     return ResponseEntity.ok(loginService.saveUser(userDto));
     }

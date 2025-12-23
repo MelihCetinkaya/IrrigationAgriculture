@@ -1,4 +1,4 @@
-package com.springexample.irrigationagriculture.service;
+package com.springexample.irrigationagriculture.service.otherServices;
 
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
