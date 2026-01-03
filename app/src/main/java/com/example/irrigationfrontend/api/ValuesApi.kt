@@ -41,6 +41,17 @@ interface ValuesApi {
     @GET("values/notification")
     fun getNotificationStatus(
         @Header("Authorization") token: String,
-        @Query("notifType") notifType: String
+        @Query("notifType") notifType: String,
+        @Query("factor") factor: String
+    ): Call<ResponseBody>
+    
+    @GET("values/mode")
+    fun getIrrigationMode(
+        @Header("Authorization") token: String
+    ): Call<ResponseBody>
+    
+    @GET("values/flowTime")
+    fun getFlowTime(
+        @Header("Authorization") token: String
     ): Call<ResponseBody>
 }

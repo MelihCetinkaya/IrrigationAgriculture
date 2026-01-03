@@ -11,6 +11,56 @@
         android:padding="24dp"
         android:gravity="center_horizontal">
 
+        <!-- Irrigation Mode Selection -->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:gravity="center"
+            android:text="Choose Irrigation Mode"
+            android:textColor="#00BCD4"
+            android:textSize="18sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            android:weightSum="3"
+            android:layout_marginBottom="24dp">
+
+            <Button
+                android:id="@+id/btnAutoMode"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginEnd="8dp"
+                android:text="Auto"
+                android:textColor="@android:color/white"
+                android:backgroundTint="#9C27B0"/>
+
+            <Button
+                android:id="@+id/btnSelfMode"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginHorizontal="4dp"
+                android:text="Self"
+                android:textColor="@android:color/white"
+                android:backgroundTint="#9C27B0"/>
+
+            <Button
+                android:id="@+id/btnHybridMode"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"
+                android:text="Hybrid"
+                android:textColor="@android:color/white"
+                android:backgroundTint="#9C27B0"/>
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -39,12 +89,195 @@
 
         </LinearLayout>
 
+        <!-- New Hyacinth Input and Interval Dropdown -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="24dp"
+            android:layout_marginTop="24dp">
+
+            <EditText
+                android:id="@+id/hyacinthInput"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:hint="hyacinth"
+                android:inputType="text"
+                android:padding="12dp"
+                android:textColorHint="#757575"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Interval:"
+                android:textColor="#212121"
+                android:textSize="16sp"
+                android:layout_marginStart="16dp"/>
+
+            <Spinner
+                android:id="@+id/intervalSpinner"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"/>
+
+        </LinearLayout>
+
+        <!-- Temperature Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="8dp">
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="Temperature"
+                android:textSize="16sp" />
+
+            <Switch
+                android:id="@+id/switchTemperature"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <!-- Humidity Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="8dp">
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="Humidity"
+                android:textSize="16sp"/>
+
+            <Switch
+                android:id="@+id/switchHumidity"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <Button
+                android:id="@+id/btnAskAI"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ask AI"
+                android:textColor="@android:color/white"
+                android:backgroundTint="#FF69B4"
+                android:layout_marginStart="16dp"/>
+        </LinearLayout>
+
+        <!-- Soil Moisture Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="8dp">
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="Soil Moisture"
+                android:textSize="16sp"/>
+
+            <Switch
+                android:id="@+id/switchSoilMoisture"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <Button
+                android:id="@+id/btnAskAIPlantSuggestions"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:backgroundTint="#5AFFEB3B"
+                android:paddingHorizontal="12dp"
+                android:paddingVertical="8dp"
+                android:text="Ask AI for plant suggestions"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+
+        <!-- Rain Row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingHorizontal="24dp"
+            android:paddingVertical="8dp">
+
+            <TextView
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:text="Rain"
+                android:textSize="16sp"/>
+
+            <Switch
+                android:id="@+id/switchRain"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+        </LinearLayout>
+
+        <!-- AI Section -->
+        <LinearLayout
+            android:id="@+id/aiSection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#4CAF50"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:layout_marginTop="16dp">
+
+            <TextView
+                android:id="@+id/aiTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="AI Recommendations"
+                android:textColor="@android:color/white"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:layout_gravity="center"
+                android:layout_marginBottom="12dp"/>
+
+            <TextView
+                android:id="@+id/aiResponse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/white"
+                android:padding="12dp"
+                android:text="Loading AI recommendations..."
+                android:textColor="#333333"
+                android:textSize="14sp"
+                android:minHeight="80dp"
+                android:gravity="top"/>
+
+            <Button
+                android:id="@+id/btnAIControl"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="AI Control"
+                android:textColor="@android:color/white"
+                android:backgroundTint="#2196F3"
+                android:layout_marginTop="12dp"/>
+        </LinearLayout>
+
         <include
             android:id="@+id/tempBox1"
             layout="@layout/control_temperature_box"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="32dp" />
+            android:layout_marginTop="24dp" />
 
         <include
             android:id="@+id/humidityBox"

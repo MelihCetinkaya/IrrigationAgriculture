@@ -25,6 +25,12 @@ class ValuesFragment : Fragment() {
 
     private val refreshRunnable = object : Runnable {
         override fun run() {
+            // Fetch current irrigation mode
+            fetchCurrentMode()
+            
+            // Fetch flow time
+            fetchFlowTime()
+            
             // Temperature (0th table)
             fetchTemperature()
             fetchTemperatureStatus()
@@ -85,6 +91,21 @@ class ValuesFragment : Fragment() {
         return binding.root
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        // Set up the refresh timer
+        setupRefreshTimer()
+
+        // Set up mode button click listener
+        binding.orangeBox.setOnClickListener {
+            fetchCurrentMode()
+        }
+
+        // Initial data fetch
+        fetchAllData()
+    }
+
     override fun onResume() {
         super.onResume()
         startRefreshing()
@@ -93,6 +114,18 @@ class ValuesFragment : Fragment() {
     override fun onPause() {
         super.onPause()
         stopRefreshing()
+    }
+
+    private fun setupRefreshTimer() {
+        // Remove any existing callbacks
+        handler.removeCallbacks(refreshRunnable)
+        // Post the first refresh immediately
+        handler.post(refreshRunnable)
+    }
+    
+    private fun fetchAllData() {
+        // Fetch all data for the first time
+        handler.post(refreshRunnable)
     }
 
     private fun startRefreshing() {
@@ -135,7 +168,93 @@ class ValuesFragment : Fragment() {
         val token = prefs.getString("token", null) ?: return
 
         val api = RetrofitInstance.retrofit.create(ValuesApi::class.java)
-        api.getNotificationStatus("Bearer $token", "telegram").enqueue(object : Callback<ResponseBody> {
+        
+        // Temperature table telegram status
+        api.getNotificationStatus("Bearer $token", "telegram", "temp").enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (!isAdded || _binding == null) return
+
+                if (response.isSuccessful) {
+                    val bodyString = response.body()?.string()?.trim() ?: ""
+                    val isActive = bodyString.equals("true", ignoreCase = true)
+
+                    if (isActive) {
+                        binding.textTelegramStatus.text = "active"
+                        binding.imageTelegramStatus.setImageResource(R.drawable.tick)
+                    } else {
+                        binding.textTelegramStatus.text = "inactive"
+                        binding.imageTelegramStatus.setImageResource(R.drawable.wrong)
+                    }
+                }
+            }
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {}
+        })
+        
+        // Humidity table telegram status
+        api.getNotificationStatus("Bearer $token", "telegram", "hum").enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (!isAdded || _binding == null) return
+
+                if (response.isSuccessful) {
+                    val bodyString = response.body()?.string()?.trim() ?: ""
+                    val isActive = bodyString.equals("true", ignoreCase = true)
+
+                    if (isActive) {
+                        binding.textHumidityTelegramStatus.text = "active"
+                        binding.imageHumidityTelegramStatus.setImageResource(R.drawable.tick)
+                    } else {
+                        binding.textHumidityTelegramStatus.text = "inactive"
+                        binding.imageHumidityTelegramStatus.setImageResource(R.drawable.wrong)
+                    }
+                }
+            }
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {}
+        })
+        
+        // Soil table telegram status
+        api.getNotificationStatus("Bearer $token", "telegram", "soil").enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (!isAdded || _binding == null) return
+
+                if (response.isSuccessful) {
+                    val bodyString = response.body()?.string()?.trim() ?: ""
+                    val isActive = bodyString.equals("true", ignoreCase = true)
+
+                    if (isActive) {
+                        binding.textSoilTelegramStatus.text = "active"
+                        binding.imageSoilTelegramStatus.setImageResource(R.drawable.tick)
+                    } else {
+                        binding.textSoilTelegramStatus.text = "inactive"
+                        binding.imageSoilTelegramStatus.setImageResource(R.drawable.wrong)
+                    }
+                }
+            }
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {}
+        })
+        
+        // Water Level table telegram status
+        api.getNotificationStatus("Bearer $token", "telegram", "waterLevel").enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (!isAdded || _binding == null) return
+
+                if (response.isSuccessful) {
+                    val bodyString = response.body()?.string()?.trim() ?: ""
+                    val isActive = bodyString.equals("true", ignoreCase = true)
+
+                    if (isActive) {
+                        binding.textWaterLevelTelegramStatus.text = "active"
+                        binding.imageWaterLevelTelegramStatus.setImageResource(R.drawable.tick)
+                    } else {
+                        binding.textWaterLevelTelegramStatus.text = "inactive"
+                        binding.imageWaterLevelTelegramStatus.setImageResource(R.drawable.wrong)
+                    }
+                }
+            }
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {}
+        })
+        
+        // Weather table telegram status
+        api.getNotificationStatus("Bearer $token", "telegram", "wth").enqueue(object : Callback<ResponseBody> {
             override fun onResponse(
                 call: Call<ResponseBody>,
                 response: Response<ResponseBody>
@@ -146,43 +265,6 @@ class ValuesFragment : Fragment() {
                     val bodyString = response.body()?.string()?.trim() ?: ""
                     val isActive = bodyString.equals("true", ignoreCase = true)
 
-                    // Temperature table telegram status
-                    if (isActive) {
-                        binding.textTelegramStatus.text = "active"
-                        binding.imageTelegramStatus.setImageResource(R.drawable.tick)
-                    } else {
-                        binding.textTelegramStatus.text = "inactive"
-                        binding.imageTelegramStatus.setImageResource(R.drawable.wrong)
-                    }
-                    
-                    // Humidity table telegram status
-                    if (isActive) {
-                        binding.textHumidityTelegramStatus.text = "active"
-                        binding.imageHumidityTelegramStatus.setImageResource(R.drawable.tick)
-                    } else {
-                        binding.textHumidityTelegramStatus.text = "inactive"
-                        binding.imageHumidityTelegramStatus.setImageResource(R.drawable.wrong)
-                    }
-                    
-                    // Soil table telegram status
-                    if (isActive) {
-                        binding.textSoilTelegramStatus.text = "active"
-                        binding.imageSoilTelegramStatus.setImageResource(R.drawable.tick)
-                    } else {
-                        binding.textSoilTelegramStatus.text = "inactive"
-                        binding.imageSoilTelegramStatus.setImageResource(R.drawable.wrong)
-                    }
-                    
-                    // Water Level table telegram status
-                    if (isActive) {
-                        binding.textWaterLevelTelegramStatus.text = "active"
-                        binding.imageWaterLevelTelegramStatus.setImageResource(R.drawable.tick)
-                    } else {
-                        binding.textWaterLevelTelegramStatus.text = "inactive"
-                        binding.imageWaterLevelTelegramStatus.setImageResource(R.drawable.wrong)
-                    }
-                    
-                    // Weather table telegram status
                     if (isActive) {
                         binding.textWeatherTelegramStatus.text = "active"
                         binding.imageWeatherTelegramStatus.setImageResource(R.drawable.tick)
@@ -192,10 +274,7 @@ class ValuesFragment : Fragment() {
                     }
                 }
             }
-
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                // Hata durumunda şimdilik ekrana yazmıyoruz, istekler devam etsin
-            }
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {}
         })
     }
 
@@ -205,18 +284,16 @@ class ValuesFragment : Fragment() {
         val token = prefs.getString("token", null) ?: return
 
         val api = RetrofitInstance.retrofit.create(ValuesApi::class.java)
-        api.getNotificationStatus("Bearer $token", "mail").enqueue(object : Callback<ResponseBody> {
-            override fun onResponse(
-                call: Call<ResponseBody>,
-                response: Response<ResponseBody>
-            ) {
+        
+        // Temperature table mail status
+        api.getNotificationStatus("Bearer $token", "mail", "temp").enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
                 if (!isAdded || _binding == null) return
 
                 if (response.isSuccessful) {
                     val bodyString = response.body()?.string()?.trim() ?: ""
                     val isActive = bodyString.equals("true", ignoreCase = true)
 
-                    // Temperature table mail status
                     if (isActive) {
                         binding.textMailStatus.text = "active"
                         binding.imageMailStatus.setImageResource(R.drawable.tick)
@@ -224,8 +301,20 @@ class ValuesFragment : Fragment() {
                         binding.textMailStatus.text = "inactive"
                         binding.imageMailStatus.setImageResource(R.drawable.wrong)
                     }
-                    
-                    // Humidity table mail status
+                }
+            }
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {}
+        })
+        
+        // Humidity table mail status
+        api.getNotificationStatus("Bearer $token", "mail", "hum").enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (!isAdded || _binding == null) return
+
+                if (response.isSuccessful) {
+                    val bodyString = response.body()?.string()?.trim() ?: ""
+                    val isActive = bodyString.equals("true", ignoreCase = true)
+
                     if (isActive) {
                         binding.textHumidityMailStatus.text = "active"
                         binding.imageHumidityMailStatus.setImageResource(R.drawable.tick)
@@ -233,8 +322,20 @@ class ValuesFragment : Fragment() {
                         binding.textHumidityMailStatus.text = "inactive"
                         binding.imageHumidityMailStatus.setImageResource(R.drawable.wrong)
                     }
-                    
-                    // Soil table mail status
+                }
+            }
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {}
+        })
+        
+        // Soil table mail status
+        api.getNotificationStatus("Bearer $token", "mail", "soil").enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (!isAdded || _binding == null) return
+
+                if (response.isSuccessful) {
+                    val bodyString = response.body()?.string()?.trim() ?: ""
+                    val isActive = bodyString.equals("true", ignoreCase = true)
+
                     if (isActive) {
                         binding.textSoilMailStatus.text = "active"
                         binding.imageSoilMailStatus.setImageResource(R.drawable.tick)
@@ -242,8 +343,20 @@ class ValuesFragment : Fragment() {
                         binding.textSoilMailStatus.text = "inactive"
                         binding.imageSoilMailStatus.setImageResource(R.drawable.wrong)
                     }
-                    
-                    // Water Level table mail status
+                }
+            }
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {}
+        })
+        
+        // Water Level table mail status
+        api.getNotificationStatus("Bearer $token", "mail", "waterLevel").enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (!isAdded || _binding == null) return
+
+                if (response.isSuccessful) {
+                    val bodyString = response.body()?.string()?.trim() ?: ""
+                    val isActive = bodyString.equals("true", ignoreCase = true)
+
                     if (isActive) {
                         binding.textWaterLevelMailStatus.text = "active"
                         binding.imageWaterLevelMailStatus.setImageResource(R.drawable.tick)
@@ -251,8 +364,20 @@ class ValuesFragment : Fragment() {
                         binding.textWaterLevelMailStatus.text = "inactive"
                         binding.imageWaterLevelMailStatus.setImageResource(R.drawable.wrong)
                     }
-                    
-                    // Weather table mail status
+                }
+            }
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {}
+        })
+        
+        // Weather table mail status
+        api.getNotificationStatus("Bearer $token", "mail", "wth").enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (!isAdded || _binding == null) return
+
+                if (response.isSuccessful) {
+                    val bodyString = response.body()?.string()?.trim() ?: ""
+                    val isActive = bodyString.equals("true", ignoreCase = true)
+
                     if (isActive) {
                         binding.textWeatherMailStatus.text = "active"
                         binding.imageWeatherMailStatus.setImageResource(R.drawable.tick)
@@ -262,10 +387,7 @@ class ValuesFragment : Fragment() {
                     }
                 }
             }
-
-            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
-                // Hata durumunda şimdilik ekrana yazmıyoruz, istekler devam etsin
-            }
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {}
         })
     }
 
@@ -1159,6 +1281,60 @@ class ValuesFragment : Fragment() {
 
             override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
                 // Hata durumunda şimdilik ekrana yazmıyoruz, istekler devam etsin
+            }
+        })
+    }
+
+    private fun fetchCurrentMode() {
+        val context = context ?: return
+        val prefs = context.getSharedPreferences("auth", Context.MODE_PRIVATE)
+        val token = prefs.getString("token", null) ?: return
+
+        val api = RetrofitInstance.retrofit.create(ValuesApi::class.java)
+        api.getIrrigationMode("Bearer $token").enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (!isAdded || _binding == null) return
+
+                if (response.isSuccessful) {
+                    val mode = response.body()?.string()?.trim()?.replace("\"", "") ?: "unknown"
+                    val modeText = "${mode.capitalize()} mode is selected"
+                    (binding.orangeBox.getChildAt(0) as? android.widget.TextView)?.text = modeText
+                } else {
+                    (binding.orangeBox.getChildAt(0) as? android.widget.TextView)?.text = "Error loading mode"
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                if (isAdded && _binding != null) {
+                    (binding.orangeBox.getChildAt(0) as? android.widget.TextView)?.text = "Error: ${t.message}"
+                }
+            }
+        })
+    }
+
+    private fun fetchFlowTime() {
+        val context = context ?: return
+        val prefs = context.getSharedPreferences("auth", Context.MODE_PRIVATE)
+        val token = prefs.getString("token", null) ?: return
+
+        val api = RetrofitInstance.retrofit.create(ValuesApi::class.java)
+        api.getFlowTime("Bearer $token").enqueue(object : Callback<ResponseBody> {
+            override fun onResponse(call: Call<ResponseBody>, response: Response<ResponseBody>) {
+                if (!isAdded || _binding == null) return
+
+                if (response.isSuccessful) {
+                    val flowTime = response.body()?.string()?.trim()?.replace("\"", "") ?: "N/A"
+                    val flowTimeText = "Flow Time: $flowTime"
+                    binding.textFlowTime.text = flowTimeText
+                } else {
+                    binding.textFlowTime.text = "Error loading flow time"
+                }
+            }
+
+            override fun onFailure(call: Call<ResponseBody>, t: Throwable) {
+                if (isAdded && _binding != null) {
+                    binding.textFlowTime.text = "Error: ${t.message}"
+                }
             }
         })
     }
