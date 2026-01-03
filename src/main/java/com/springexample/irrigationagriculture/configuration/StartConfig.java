@@ -4,6 +4,7 @@ import com.springexample.irrigationagriculture.entity.*;
 import com.springexample.irrigationagriculture.entity.enums.Role;
 import com.springexample.irrigationagriculture.entity.enums.TimeZone;
 import com.springexample.irrigationagriculture.repository.*;
+import com.springexample.irrigationagriculture.service.AutoIrrigationService;
 import com.springexample.irrigationagriculture.service.otherServices.FlowService;
 import com.springexample.irrigationagriculture.service.otherServices.MqttService;
 import jakarta.annotation.PostConstruct;
@@ -21,8 +22,9 @@ public class StartConfig {
     private final AmountsRepo amountsRepo;
     private final MqttService mqttService;
     private final FlowService flowService;
+    private final AutoIrrigationService autoIrrigationService;
 
-    public StartConfig(PasswordEncoder passwordEncoder, AdminRepo adminRepo, PlantHouseRepo plantHouseRepo, ValveRepo valveRepo, NotifToolsRepo notifToolsRepo, AmountsRepo amountsRepo, MqttService mqttService, FlowService flowService) {
+    public StartConfig(PasswordEncoder passwordEncoder, AdminRepo adminRepo, PlantHouseRepo plantHouseRepo, ValveRepo valveRepo, NotifToolsRepo notifToolsRepo, AmountsRepo amountsRepo, MqttService mqttService, FlowService flowService, AutoIrrigationService autoIrrigationService) {
         this.passwordEncoder = passwordEncoder;
         this.adminRepo = adminRepo;
         this.plantHouseRepo = plantHouseRepo;
@@ -31,6 +33,7 @@ public class StartConfig {
         this.amountsRepo = amountsRepo;
         this.mqttService = mqttService;
         this.flowService = flowService;
+        this.autoIrrigationService = autoIrrigationService;
     }
 
     @PostConstruct
@@ -95,7 +98,12 @@ public class StartConfig {
         }).start();
     }
 
+    @PostConstruct
+    public void startAutoIrrigation() {
 
+        new Thread(autoIrrigationService).start();
+
+    }
 
 }
 

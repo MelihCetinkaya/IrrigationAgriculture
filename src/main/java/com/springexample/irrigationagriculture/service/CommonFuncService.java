@@ -1,7 +1,7 @@
 package com.springexample.irrigationagriculture.service;
 
 import com.springexample.irrigationagriculture.entity.abstractClasses.Person;
-import com.springexample.irrigationagriculture.exception.GeneralException;
+import com.springexample.irrigationagriculture.entity.enums.IrrigationMode;
 import com.springexample.irrigationagriculture.repository.PersonRepo;
 import com.springexample.irrigationagriculture.service.otherServices.HelperFuncs;
 import com.springexample.irrigationagriculture.service.otherServices.JwtService;
@@ -23,44 +23,15 @@ public class CommonFuncService {
     }
 
 
-    public String changeTempStatus(String token,Boolean status)  {
-
-        if(!helperFuncs.checkUser(token)){
-            return "you cannot any change";
-        }
-
-        Person person = (Person) personRepo.findByUsername(jwtService.findUsername(token)).orElseThrow();
-        person.getPlantHouse().getAmounts().setTempIsActive(status);
-        personRepo.save(person);
-        helperFuncs.sendData("t"+status);
-        return "successfully changed temp status";
-
-    }
-
-    public void changeHumStatus(String username) throws GeneralException {
-
-
-        //CommonFuncService.checkTimeZone(person);
-
-        //person.getPlantHouse().getValues().setHumIsActive(!person.getPlantHouse().getValues().getHumIsActive());
-
-    }
-
-
-    public static void changeWthStatus(String username) {
-
-
-        //CommonFuncService.checkTimeZone(person);
-
-        //person.getPlantHouse().getValues().setWthIsActive(!person.getPlantHouse().getValues().getWthIsActive());
-
-    }
-
-
     public String enableIrrigation(String token,String time){
 
         if(!helperFuncs.checkUser(token)){
             return "you cannot any change";
+        }
+        Person person = (Person) personRepo.findByUsername(jwtService.findUsername(token)).orElseThrow();
+        if(person.getPlantHouse().getIrrigationMode()== IrrigationMode.AutoIrrigationMode){
+            return "You cannot activate the irrigation feature while automatic mode is enabled";
+
         }
         if(Integer.parseInt(time)>20){
            time="20";

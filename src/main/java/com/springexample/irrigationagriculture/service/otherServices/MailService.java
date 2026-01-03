@@ -17,13 +17,13 @@ public class MailService {
         this.mailSender = mailSender;
     }
 
-    public void sendMail(){
+    public void sendMail(String message){
 
         SimpleMailMessage mailMessage = new SimpleMailMessage();
 
         mailMessage.setTo(mail);
         mailMessage.setSubject("Bildirim");
-        mailMessage.setText("Temperature decreased.");
+        mailMessage.setText(message);
         mailMessage.setFrom(mail);
 
         mailSender.send(mailMessage);

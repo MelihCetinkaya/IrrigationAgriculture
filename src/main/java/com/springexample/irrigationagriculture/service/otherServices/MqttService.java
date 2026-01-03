@@ -31,6 +31,16 @@ public class MqttService implements Runnable{
     @Value("${mqtt.topic.humidity}")
     private String humidity;
 
+    @Value("${mqtt.topic.soil}")
+    private String soil;
+
+    @Value("${mqtt.topic.rain}")
+    private String rain;
+
+    @Value("${mqtt.topic.level}")
+    private String level;
+
+
     private Admin admin;
     private final AmountsRepo  amountsRepo;
 
@@ -50,6 +60,15 @@ public class MqttService implements Runnable{
     private void handleHumidity(double value) {
         //System.out.println("💧 Nem: " + value);
     }
+    private void handleSoil(double value) {
+        //System.out.println("💧 Nem: " + value);
+    }
+    private void handleRain(double value) {
+        //System.out.println("💧 Nem: " + value);
+    }
+    private void handleLevel(double value) {
+        //System.out.println("💧 Nem: " + value);
+    }
 
 
     Map<String, Consumer<Double>> topicHandlers = new HashMap<>();
@@ -67,6 +86,9 @@ public class MqttService implements Runnable{
 
             topicHandlers.put(temperature, this::handleTemperature);
             topicHandlers.put(humidity, this::handleHumidity);
+            topicHandlers.put(soil, this::handleSoil);
+            topicHandlers.put(rain, this::handleRain);
+            topicHandlers.put(level, this::handleLevel);
 
             IMqttMessageListener listener = (topic, message) -> {
                 String payload = new String(message.getPayload());
@@ -78,13 +100,29 @@ public class MqttService implements Runnable{
                         String numberPart = payload.substring("temperature:".length());
                         value = Double.parseDouble(numberPart);
                         admin.getPlantHouse().getAmounts().setTempValue(value);
-
                     }
 
                    else if(payload.startsWith("humidity:")){
                         String numberPart = payload.substring("humidity:".length());
                         value = Double.parseDouble(numberPart);
                         admin.getPlantHouse().getAmounts().setHumValue(value);
+                    }
+                    else if(payload.startsWith("soil:")){
+                        String numberPart = payload.substring("soil:".length());
+                        value = Double.parseDouble(numberPart);
+                        value = Math.ceil((value/40.96-100)*-1);
+                        admin.getPlantHouse().getAmounts().setSoilValue(value);
+                    }
+                    else if(payload.startsWith("rain:")){
+                        String numberPart = payload.substring("rain:".length());
+                        value = Double.parseDouble(numberPart);
+                        value = Math.ceil((value/40.96-100)*-1);
+                        admin.getPlantHouse().getAmounts().setWthValue(value);
+                    }
+                    else if(payload.startsWith("level:")){
+                        String numberPart = payload.substring("level:".length());
+                        value = Double.parseDouble(numberPart);
+                        admin.getPlantHouse().getAmounts().setWaterValue(value);
                     }
 
                     amounts = admin.getPlantHouse().getAmounts();
@@ -101,6 +139,10 @@ public class MqttService implements Runnable{
 
             client.subscribe(temperature, listener);
             client.subscribe(humidity, listener);
+            client.subscribe(soil, listener);
+            client.subscribe(rain, listener);
+            client.subscribe(level, listener);
+
 
             System.out.println("MQTT bağlantısı başarılı!");
         } catch (Exception e) {

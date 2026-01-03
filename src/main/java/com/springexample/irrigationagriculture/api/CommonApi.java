@@ -2,7 +2,7 @@ package com.springexample.irrigationagriculture.api;
 
 
 import com.springexample.irrigationagriculture.service.CommonFuncService;
-import com.springexample.irrigationagriculture.service.otherServices.IrrigationService;
+import com.springexample.irrigationagriculture.service.IrrigationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,11 +17,6 @@ public class CommonApi {
         this.commonFuncService = commonFuncService;
         this.irrigationService = irrigationService;
     }
-
-   /* @PostMapping("/temp")
-    public ResponseEntity<String>  changeTempStatus(@RequestHeader("Authorization") String token, @RequestParam Boolean status ) {
-        return ResponseEntity.ok(commonFuncService.changeTempStatus(token,status));
-    }*/
 
     @PostMapping("/irrigation")
     public ResponseEntity<String> enableIrrigation(@RequestHeader("Authorization") String token, @RequestParam String time)  {
@@ -54,9 +49,9 @@ public class CommonApi {
 
     }
     @PostMapping("/notification")//***** facctor
-    public void changeNotification(@RequestHeader("Authorization") String token,@RequestParam String notifyType,@RequestParam Boolean activity)  {
+    public void changeNotification(@RequestHeader("Authorization") String token,@RequestParam String factor,@RequestParam String notifyType,@RequestParam Boolean activity)  {
 
-        irrigationService.changeNotificationActivity(token,notifyType,activity);
+        irrigationService.changeNotificationActivity(token,factor,notifyType,activity);
 
     }
 

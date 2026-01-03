@@ -58,9 +58,16 @@ public class ValuesApi {
     }
 
     @GetMapping("/notification")
-    public ResponseEntity<Boolean> getNotification(@RequestHeader("Authorization") String token,@RequestParam String notifType){
+    public ResponseEntity<Boolean> getNotification(@RequestHeader("Authorization") String token,@RequestParam String factor,@RequestParam String notifType){
 
-        return ResponseEntity.ok(valuesService.checkNotification(token,notifType));
+        return ResponseEntity.ok(valuesService.checkNotification(token,factor,notifType));
+
+    }
+
+    @GetMapping("/flowTime")
+    public ResponseEntity<Double> getFlowTime(@RequestHeader("Authorization") String token){
+
+        return ResponseEntity.ok(valuesService.getFlowTime(token));
 
     }
 

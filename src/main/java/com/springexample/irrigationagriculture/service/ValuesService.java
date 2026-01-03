@@ -7,6 +7,8 @@ import com.springexample.irrigationagriculture.service.otherServices.HelperFuncs
 import com.springexample.irrigationagriculture.service.otherServices.JwtService;
 import org.springframework.stereotype.Service;
 
+import java.util.Objects;
+
 @SuppressWarnings("rawtypes")
 @Service
 public class ValuesService {
@@ -101,6 +103,7 @@ public class ValuesService {
         }
         Person person = (Person) personRepo.findByUsername(jwtService.findUsername(token)).orElseThrow();
 
+        //noinspection IfCanBeSwitch
         if (minmax.equals("min")) {
 
             switch (factor) {
@@ -248,14 +251,12 @@ public class ValuesService {
 
         Person person = (Person) personRepo.findByUsername(jwtService.findUsername(token)).orElseThrow();
 
-person.getPlantHouse().getNotificationTools().setTelegramActivity(false);
-personRepo.save(person);
         return person.getPlantHouse().getIrrigationMode();
 
 
     }
 
-    public Boolean checkNotification(String token, String notifType) {
+    public Boolean checkNotification(String token,String factor, String notifType) {
 
         if (!helperFuncs.checkUser(token)) {
             System.out.println("invalid user");
@@ -264,22 +265,102 @@ personRepo.save(person);
 
         Person person = (Person) personRepo.findByUsername(jwtService.findUsername(token)).orElseThrow();
 
-        switch (notifType) {
-            case "mail" -> {
-                return person.getPlantHouse().getNotificationTools().getMailActivity();
+        if(Objects.equals(notifType, "mail")){
+
+            switch (factor) {
+                case "temp" -> {
+                    return person.getPlantHouse().getNotificationTools().isTempMail();
+                }
+                case "hum" -> {
+                    return person.getPlantHouse().getNotificationTools().isHumMail();
+                }
+                case "soil" -> {
+                    return person.getPlantHouse().getNotificationTools().isSoilMail();
+                }
+                case "wth" -> {
+                    return person.getPlantHouse().getNotificationTools().isRainMail();
+                }
+                case "waterLevel" -> {
+                    return person.getPlantHouse().getNotificationTools().isLevelMail();
+                }
+                default -> {
+                    System.out.println("Invalid factor");
+                    return null;
+                }
             }
-            case "telegram" -> {
-                return person.getPlantHouse().getNotificationTools().getTelegramActivity();
-            }
-            case "socket" -> {
-                return person.getPlantHouse().getNotificationTools().getWebSocketActivity();
-            }
-            default -> {
-                System.out.println("Invalid notifType");
-                return null;
-            }
+
         }
 
+        else if(Objects.equals(notifType, "telegram")){
+
+            switch (factor) {
+                case "temp" -> {
+                    return person.getPlantHouse().getNotificationTools().isTempTelegram();
+                }
+                case "hum" -> {
+                    return person.getPlantHouse().getNotificationTools().isHumTelegram();
+                }
+                case "soil" -> {
+                    return person.getPlantHouse().getNotificationTools().isSoilTelegram();
+                }
+                case "wth" -> {
+                    return person.getPlantHouse().getNotificationTools().isRainTelegram();
+                }
+                case "waterLevel" -> {
+                    return person.getPlantHouse().getNotificationTools().isLevelTelegram();
+                }
+                default -> {
+                    System.out.println("Invalid factor");
+                    return null;
+                }
+            }
+
+        }
+
+        else if(Objects.equals(notifType, "socket")){
+
+            switch (factor) {
+                case "temp" -> {
+                    return person.getPlantHouse().getNotificationTools().isTempSocket();
+                }
+                case "hum" -> {
+                    return person.getPlantHouse().getNotificationTools().isHumSocket();
+                }
+                case "soil" -> {
+                    return person.getPlantHouse().getNotificationTools().isSoilSocket();
+                }
+                case "wth" -> {
+                    return person.getPlantHouse().getNotificationTools().isRainSocket();
+                }
+                case "waterLevel" -> {
+                    return person.getPlantHouse().getNotificationTools().isLevelSocket();
+                }
+                default -> {
+                    System.out.println("Invalid factor");
+                    return null;
+                }
+            }
+
+        }
+
+
+        else{
+            System.out.println("invalid notifType");
+            return null;
+        }
+
+    }
+
+    public double getFlowTime(String token){
+
+        if (!helperFuncs.checkUser(token)) {
+            System.out.println("invalid user");
+            return 0.0;
+        }
+
+        Person person = (Person) personRepo.findByUsername(jwtService.findUsername(token)).orElseThrow();
+
+        return person.getPlantHouse().getValve().getFlowTime();
 
     }
 

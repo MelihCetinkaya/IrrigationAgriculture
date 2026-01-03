@@ -1,4 +1,4 @@
-package com.springexample.irrigationagriculture.service.otherServices;
+package com.springexample.irrigationagriculture.service;
 
 import com.springexample.irrigationagriculture.entity.Amounts;
 import com.springexample.irrigationagriculture.entity.NotificationTools;
@@ -9,11 +9,14 @@ import com.springexample.irrigationagriculture.repository.AmountsRepo;
 import com.springexample.irrigationagriculture.repository.NotifToolsRepo;
 import com.springexample.irrigationagriculture.repository.PersonRepo;
 import com.springexample.irrigationagriculture.repository.PlantHouseRepo;
+import com.springexample.irrigationagriculture.service.otherServices.HelperFuncs;
+import com.springexample.irrigationagriculture.service.otherServices.JwtService;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
 
 
+@SuppressWarnings("rawtypes")
 @Service
 public class IrrigationService {
 
@@ -22,7 +25,7 @@ public class IrrigationService {
     private final HelperFuncs helperFuncs;
     private final AmountsRepo amountsRepo;
     private final PlantHouseRepo plantHouseRepo;
-    private final NotifToolsRepo  notifToolsRepo;
+    private final NotifToolsRepo notifToolsRepo;
 
     public IrrigationService(JwtService jwtService, PersonRepo personRepo, HelperFuncs helperFuncs, AmountsRepo amountsRepo, PlantHouseRepo plantHouseRepo, NotifToolsRepo notifToolsRepo) {
 
@@ -34,11 +37,11 @@ public class IrrigationService {
         this.notifToolsRepo = notifToolsRepo;
     }
 
-    public void changeFactorEffect(String token,Boolean activity,String factor) {
+    public void changeFactorEffect(String token, Boolean activity, String factor) {
 
-       if(!helperFuncs.checkUser(token)){
-           return;
-       }
+        if (!helperFuncs.checkUser(token)) {
+            return;
+        }
         Person person = (Person) personRepo.findByUsername(jwtService.findUsername(token)).orElseThrow();
 
         switch (factor) {
@@ -59,16 +62,16 @@ public class IrrigationService {
 
     }
 
-    public void changeThresholds(String token,String factor,String threshold,String minmax) {
+    public void changeThresholds(String token, String factor, String threshold, String minmax) {
 
-        if(!helperFuncs.checkUser(token)){
+        if (!helperFuncs.checkUser(token)) {
             return;
         }
         Person person = (Person) personRepo.findByUsername(jwtService.findUsername(token)).orElseThrow();
         double value;
         value = Double.parseDouble(threshold);
 
-        if(Objects.equals(minmax, "min")){
+        if (Objects.equals(minmax, "min")) {
 
             switch (factor) {
                 case "temp" -> person.getPlantHouse().getAmounts().setMinTemp(value);
@@ -97,8 +100,7 @@ public class IrrigationService {
                 }
             }
 
-        }
-        else{
+        } else {
             System.out.println("Invalid");
             return;
         }
@@ -109,33 +111,62 @@ public class IrrigationService {
 
     }
 
-    public void changeNotificationActivity(String token,String notifType,Boolean activity) {
+    public void changeNotificationActivity(String token, String factor, String notifType, Boolean activity) {
 
-        if(!helperFuncs.checkUser(token)){
-            return;
+        if (!helperFuncs.checkUser(token)) {
+            System.out.println("invalid user");
         }
+
         Person person = (Person) personRepo.findByUsername(jwtService.findUsername(token)).orElseThrow();
 
-            switch (notifType) {
-                case "mail" -> person.getPlantHouse().getNotificationTools().setMailActivity(activity);
-                case "telegram" -> person.getPlantHouse().getNotificationTools().setTelegramActivity(activity);
-                case "websocket" ->person.getPlantHouse().getNotificationTools().setWebSocketActivity(activity);
-                default -> {
-                    System.out.println("Invalid notifType");
-                    return;
-                }
+        if (Objects.equals(notifType, "mail")) {
+
+            switch (factor) {
+                case "temp" -> person.getPlantHouse().getNotificationTools().setTempMail(activity);
+                case "hum" -> person.getPlantHouse().getNotificationTools().setHumMail(activity);
+                case "soil" -> person.getPlantHouse().getNotificationTools().setSoilMail(activity);
+                case "wth" -> person.getPlantHouse().getNotificationTools().setRainMail(activity);
+                case "waterLevel" -> person.getPlantHouse().getNotificationTools().setLevelMail(activity);
+                default -> System.out.println("Invalid factor");
             }
+
+        } else if (Objects.equals(notifType, "telegram")) {
+
+            switch (factor) {
+                case "temp" -> person.getPlantHouse().getNotificationTools().setTempTelegram(activity);
+                case "hum" -> person.getPlantHouse().getNotificationTools().setHumTelegram(activity);
+                case "soil" -> person.getPlantHouse().getNotificationTools().setSoilTelegram(activity);
+                case "wth" -> person.getPlantHouse().getNotificationTools().setRainTelegram(activity);
+                case "waterLevel" -> person.getPlantHouse().getNotificationTools().setLevelTelegram(activity);
+                default -> System.out.println("Invalid factor");
+            }
+
+        } else if (Objects.equals(notifType, "socket")) {
+
+            switch (factor) {
+                case "temp" -> person.getPlantHouse().getNotificationTools().setTempSocket(activity);
+                case "hum" -> person.getPlantHouse().getNotificationTools().setHumSocket(activity);
+                case "soil" -> person.getPlantHouse().getNotificationTools().setSoilSocket(activity);
+                case "wth" -> person.getPlantHouse().getNotificationTools().setRainSocket(activity);
+                case "waterLevel" -> person.getPlantHouse().getNotificationTools().setLevelSocket(activity);
+                default -> System.out.println("Invalid factor");
+            }
+
+        } else {
+            System.out.println("invalid notifType");
+
+        }
 
         NotificationTools notificationTools;
         notificationTools = person.getPlantHouse().getNotificationTools();
         notifToolsRepo.save(notificationTools);
 
-
     }
 
-    public void changeMode(String token,String irrigationMode) {
 
-        if(!helperFuncs.checkUser(token)){
+    public void changeMode(String token, String irrigationMode) {
+
+        if (!helperFuncs.checkUser(token)) {
             return;
         }
         Person person = (Person) personRepo.findByUsername(jwtService.findUsername(token)).orElseThrow();
@@ -143,7 +174,7 @@ public class IrrigationService {
         switch (irrigationMode) {
             case "auto" -> person.getPlantHouse().setIrrigationMode(IrrigationMode.AutoIrrigationMode);
             case "self" -> person.getPlantHouse().setIrrigationMode(IrrigationMode.SelfIrrigationMode);
-            case "hybrid" ->person.getPlantHouse().setIrrigationMode(IrrigationMode.HybridIrrigationMode);
+            case "hybrid" -> person.getPlantHouse().setIrrigationMode(IrrigationMode.HybridIrrigationMode);
             default -> {
                 System.out.println("Invalid mode");
                 return;
@@ -156,14 +187,14 @@ public class IrrigationService {
 
     }
 
-    public void changeMinMaxTime(String token,String factor,String minmax,int time) {
+    public void changeMinMaxTime(String token, String factor, String minmax, int time) {
 
-        if(!helperFuncs.checkUser(token)){
+        if (!helperFuncs.checkUser(token)) {
             return;
         }
         Person person = (Person) personRepo.findByUsername(jwtService.findUsername(token)).orElseThrow();
 
-        if(Objects.equals(minmax, "min")){
+        if (Objects.equals(minmax, "min")) {
 
             switch (factor) {
                 case "temp" -> person.getPlantHouse().getAmounts().setMinTempTime(time);
@@ -192,30 +223,20 @@ public class IrrigationService {
                 }
             }
 
-        }
-        else if (minmax.equals("mid")) {
+        } else if (minmax.equals("mid")) {
 
             switch (factor) {
-                case "temp" ->
-                    person.getPlantHouse().getAmounts().setMidTempTime(time);
-                case "hum" ->
-                    person.getPlantHouse().getAmounts().setMidHumTime(time);
-                case "wth" ->
-                    person.getPlantHouse().getAmounts().setMidWthTime(time);
-                case "waterLevel" ->
-                    person.getPlantHouse().getAmounts().setMidWaterTime(time);
-                case "soil" ->
-                    person.getPlantHouse().getAmounts().setMidSoilTime(time);
-                default ->
-                    System.out.println("Invalid factor");
-
-
+                case "temp" -> person.getPlantHouse().getAmounts().setMidTempTime(time);
+                case "hum" -> person.getPlantHouse().getAmounts().setMidHumTime(time);
+                case "wth" -> person.getPlantHouse().getAmounts().setMidWthTime(time);
+                case "waterLevel" -> person.getPlantHouse().getAmounts().setMidWaterTime(time);
+                case "soil" -> person.getPlantHouse().getAmounts().setMidSoilTime(time);
+                default -> System.out.println("Invalid factor");
 
 
             }
 
-        }
-        else{
+        } else {
             System.out.println("Invalid");
             return;
         }
@@ -226,14 +247,14 @@ public class IrrigationService {
 
     }
 
-    public void makeIrrAccToFlowTime(String token){
+    public void makeIrrAccToFlowTime(String token) {
 
-        if(!helperFuncs.checkUser(token)){
+        if (!helperFuncs.checkUser(token)) {
             return;
         }
         Person person = (Person) personRepo.findByUsername(jwtService.findUsername(token)).orElseThrow();
-        int time =person.getPlantHouse().getValve().getFlowTime();
-        if(time < 0 || time >20){/******************/
+        int time = person.getPlantHouse().getValve().getFlowTime();
+        if (time < 0 || time > 20) {           /******************/
             time = 10;
         }
         String sTime = String.valueOf(time);
