@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="#11121D">
 
-    <LinearLayout 
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:padding="24dp"
-        android:gravity="center_horizontal">
+        android:padding="24dp">
 
         <!-- Irrigation Mode Selection -->
         <TextView
@@ -25,47 +25,48 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_marginBottom="24dp"
             android:gravity="center"
-            android:weightSum="3"
-            android:layout_marginBottom="24dp">
+            android:orientation="horizontal"
+            android:weightSum="3">
 
             <Button
                 android:id="@+id/btnAutoMode"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginEnd="8dp"
+                android:layout_weight="1"
+                android:backgroundTint="#9C27B0"
                 android:text="Auto"
-                android:textColor="@android:color/white"
-                android:backgroundTint="#9C27B0"/>
+                android:textColor="@android:color/white" />
 
             <Button
                 android:id="@+id/btnSelfMode"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginHorizontal="4dp"
+                android:layout_weight="1"
+                android:backgroundTint="#9C27B0"
                 android:text="Self"
-                android:textColor="@android:color/white"
-                android:backgroundTint="#9C27B0"/>
+                android:textColor="@android:color/white" />
 
             <Button
                 android:id="@+id/btnHybridMode"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:backgroundTint="#9C27B0"
                 android:text="Hybrid"
-                android:textColor="@android:color/white"
-                android:backgroundTint="#9C27B0"/>
+                android:textColor="@android:color/white" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:background="#9C27B0"
             android:gravity="center_vertical"
+            android:orientation="horizontal"
             android:paddingHorizontal="24dp">
 
             <EditText
@@ -75,17 +76,17 @@
                 android:layout_weight="1"
                 android:hint="Enter time"
                 android:inputType="text"
-                android:padding="12dp"/>
+                android:padding="12dp" />
 
             <Button
                 android:id="@+id/sendTimeButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Send"
-                android:textColor="@android:color/white"
+                android:layout_marginStart="8dp"
                 android:backgroundTint="#2196F3"
                 android:paddingHorizontal="16dp"
-                android:layout_marginStart="8dp"/>
+                android:text="Send"
+                android:textColor="@android:color/white" />
 
         </LinearLayout>
 
@@ -93,10 +94,11 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_marginTop="24dp"
+            android:background="#3F51B5"
             android:gravity="center_vertical"
-            android:paddingHorizontal="24dp"
-            android:layout_marginTop="24dp">
+            android:orientation="horizontal"
+            android:paddingHorizontal="24dp">
 
             <EditText
                 android:id="@+id/hyacinthInput"
@@ -106,22 +108,23 @@
                 android:hint="hyacinth"
                 android:inputType="text"
                 android:padding="12dp"
-                android:textColorHint="#757575"/>
+                android:textColor="#000000"
+                android:textColorHint="#000000" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
                 android:text="Interval:"
-                android:textColor="#212121"
-                android:textSize="16sp"
-                android:layout_marginStart="16dp"/>
+                android:textColor="#000000"
+                android:textSize="16sp" />
 
             <Spinner
                 android:id="@+id/intervalSpinner"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:layout_marginStart="8dp"/>
+                android:layout_marginStart="8dp"
+                android:layout_weight="1" />
 
         </LinearLayout>
 
@@ -129,8 +132,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:background="#FFEB3B"
             android:gravity="center_vertical"
+            android:orientation="horizontal"
             android:paddingHorizontal="24dp"
             android:paddingVertical="8dp">
 
@@ -143,15 +147,16 @@
             <Switch
                 android:id="@+id/switchTemperature"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <!-- Humidity Row -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:background="#FFEB3B"
             android:gravity="center_vertical"
+            android:orientation="horizontal"
             android:paddingHorizontal="24dp"
             android:paddingVertical="8dp">
 
@@ -159,29 +164,31 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:text="Humidity"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <Switch
                 android:id="@+id/switchHumidity"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             <Button
                 android:id="@+id/btnAskAI"
-                android:layout_width="wrap_content"
+                android:layout_width="101dp"
                 android:layout_height="wrap_content"
-                android:text="Ask AI"
+                android:layout_marginStart="16dp"
+                android:backgroundTint="#2196F3"
+                android:text="Ask AI for plant suggestion"
                 android:textColor="@android:color/white"
-                android:backgroundTint="#FF69B4"
-                android:layout_marginStart="16dp"/>
+                android:textSize="10dp" />
         </LinearLayout>
 
         <!-- Soil Moisture Row -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:background="#FFEB3B"
             android:gravity="center_vertical"
+            android:orientation="horizontal"
             android:paddingHorizontal="24dp"
             android:paddingVertical="8dp">
 
@@ -189,31 +196,33 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:text="Soil Moisture"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <Switch
                 android:id="@+id/switchSoilMoisture"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
 
             <Button
                 android:id="@+id/btnAskAIPlantSuggestions"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
-                android:backgroundTint="#5AFFEB3B"
+                android:backgroundTint="#03A9F4"
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="8dp"
-                android:text="Ask AI for plant suggestions"
-                android:textColor="@android:color/white" />
+                android:text="Ask AI for plant conditions"
+                android:textColor="@android:color/white"
+                android:textSize="10dp" />
         </LinearLayout>
 
         <!-- Rain Row -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:background="#FFEB3B"
             android:gravity="center_vertical"
+            android:orientation="horizontal"
             android:paddingHorizontal="24dp"
             android:paddingVertical="8dp">
 
@@ -221,12 +230,12 @@
                 android:layout_width="120dp"
                 android:layout_height="wrap_content"
                 android:text="Rain"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <Switch
                 android:id="@+id/switchRain"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <!-- AI Section -->
@@ -234,42 +243,42 @@
             android:id="@+id/aiSection"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:background="#4CAF50"
             android:orientation="vertical"
-            android:padding="16dp"
-            android:layout_marginTop="16dp">
+            android:padding="16dp">
 
             <TextView
                 android:id="@+id/aiTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginBottom="12dp"
                 android:text="AI Recommendations"
                 android:textColor="@android:color/white"
                 android:textSize="18sp"
-                android:textStyle="bold"
-                android:layout_gravity="center"
-                android:layout_marginBottom="12dp"/>
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/aiResponse"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@android:color/white"
+                android:gravity="top"
+                android:minHeight="80dp"
                 android:padding="12dp"
                 android:text="Loading AI recommendations..."
                 android:textColor="#333333"
-                android:textSize="14sp"
-                android:minHeight="80dp"
-                android:gravity="top"/>
+                android:textSize="14sp" />
 
             <Button
                 android:id="@+id/btnAIControl"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="AI Control"
-                android:textColor="@android:color/white"
+                android:layout_marginTop="12dp"
                 android:backgroundTint="#2196F3"
-                android:layout_marginTop="12dp"/>
+                android:text="AI Control"
+                android:textColor="@android:color/white" />
         </LinearLayout>
 
         <include
@@ -306,9 +315,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:layout_marginBottom="112dp"/>
+            android:layout_marginBottom="112dp" />
 
     </LinearLayout>
 
-    
+
 </ScrollView>

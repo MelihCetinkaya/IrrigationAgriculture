@@ -313,17 +313,17 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
+                    android:layout_marginStart="3dp"
                     android:fontFamily="sans-serif-black"
                     android:text="telegram"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
 
                 <TextView
                     android:id="@+id/textTelegramStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:textSize="16sp" />
+                    android:textSize="10sp" />
 
                 <ImageView
                     android:id="@+id/imageTelegramStatus"
@@ -519,7 +519,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:src="@drawable/celcius"
+                android:src="@drawable/percentage"
                 android:contentDescription="Max humidity threshold unit" />
         </LinearLayout>
 
@@ -594,7 +594,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
+                    android:layout_marginStart="3dp"
                     android:fontFamily="sans-serif-black"
                     android:text="telegram"
                     android:textSize="12sp" />
@@ -604,7 +604,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:textSize="16sp" />
+                    android:textSize="10sp" />
 
                 <ImageView
                     android:id="@+id/imageHumidityTelegramStatus"
@@ -800,7 +800,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:src="@drawable/celcius"
+                android:src="@drawable/percentage"
                 android:contentDescription="Max soil moisture threshold unit" />
         </LinearLayout>
 
@@ -875,7 +875,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
+                    android:layout_marginStart="3dp"
                     android:fontFamily="sans-serif-black"
                     android:text="telegram"
                     android:textSize="12sp" />
@@ -885,7 +885,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:textSize="16sp" />
+                    android:textSize="10sp" />
 
                 <ImageView
                     android:id="@+id/imageSoilTelegramStatus"
@@ -1081,7 +1081,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:src="@drawable/celcius"
+                android:src="@drawable/percentage"
                 android:contentDescription="Max water level threshold unit" />
         </LinearLayout>
 
@@ -1156,17 +1156,17 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
+                    android:layout_marginStart="3dp"
                     android:fontFamily="sans-serif-black"
                     android:text="telegram"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
 
                 <TextView
                     android:id="@+id/textWaterLevelTelegramStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:textSize="16sp" />
+                    android:textSize="10sp" />
 
                 <ImageView
                     android:id="@+id/imageWaterLevelTelegramStatus"
@@ -1362,7 +1362,7 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:src="@drawable/celcius"
+                android:src="@drawable/percentage"
                 android:contentDescription="Max weather threshold unit" />
         </LinearLayout>
 
@@ -1439,17 +1439,17 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="4dp"
+                    android:layout_marginStart="3dp"
                     android:fontFamily="sans-serif-black"
                     android:text="telegram"
-                    android:textSize="12sp" />
+                    android:textSize="10sp" />
 
                 <TextView
                     android:id="@+id/textWeatherTelegramStatus"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:textSize="16sp" />
+                    android:textSize="10sp" />
 
                 <ImageView
                     android:id="@+id/imageWeatherTelegramStatus"
