@@ -1,0 +1,2 @@
+../Drivers/Modules/Src/analog.c:10:6:sendAnalogValues	16	static
+../Drivers/Modules/Src/analog.c:44:6:uint16_to_str	24	static

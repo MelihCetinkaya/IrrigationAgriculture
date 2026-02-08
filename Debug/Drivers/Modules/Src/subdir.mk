@@ -5,12 +5,15 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
+../Drivers/Modules/Src/analog.c \
 ../Drivers/Modules/Src/dht11.c 
 
 OBJS += \
+./Drivers/Modules/Src/analog.o \
 ./Drivers/Modules/Src/dht11.o 
 
 C_DEPS += \
+./Drivers/Modules/Src/analog.d \
 ./Drivers/Modules/Src/dht11.d 
 
 
@@ -21,7 +24,7 @@ Drivers/Modules/Src/%.o Drivers/Modules/Src/%.su Drivers/Modules/Src/%.cyclo: ..
 clean: clean-Drivers-2f-Modules-2f-Src
 
 clean-Drivers-2f-Modules-2f-Src:
-	-$(RM) ./Drivers/Modules/Src/dht11.cyclo ./Drivers/Modules/Src/dht11.d ./Drivers/Modules/Src/dht11.o ./Drivers/Modules/Src/dht11.su
+	-$(RM) ./Drivers/Modules/Src/analog.cyclo ./Drivers/Modules/Src/analog.d ./Drivers/Modules/Src/analog.o ./Drivers/Modules/Src/analog.su ./Drivers/Modules/Src/dht11.cyclo ./Drivers/Modules/Src/dht11.d ./Drivers/Modules/Src/dht11.o ./Drivers/Modules/Src/dht11.su
 
 .PHONY: clean-Drivers-2f-Modules-2f-Src
 
