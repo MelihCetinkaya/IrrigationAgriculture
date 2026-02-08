@@ -247,20 +247,5 @@ public class IrrigationService {
 
     }
 
-    public void makeIrrAccToFlowTime(String token) {
-
-        if (!helperFuncs.checkUser(token)) {
-            return;
-        }
-        Person person = (Person) personRepo.findByUsername(jwtService.findUsername(token)).orElseThrow();
-        int time = person.getPlantHouse().getValve().getFlowTime();
-        if (time < 0 || time > 20) {           /******************/
-            time = 10;
-        }
-        String sTime = String.valueOf(time);
-        helperFuncs.sendData(sTime);
-
-    }
-
 
 }

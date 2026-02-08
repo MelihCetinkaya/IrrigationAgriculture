@@ -360,9 +360,9 @@ public class AiService {
 
             List<Double> list = getLast(userSelections.getNumber(), SensorType.TEMP);
 
-            double avg = list.stream().mapToDouble(Double::doubleValue).average().orElse(20.0);
-            double min = list.stream().mapToDouble(Double::doubleValue).min().orElse(10.0);
-            double max = list.stream().mapToDouble(Double::doubleValue).max().orElse(30.0);
+            double avg = list.stream().mapToDouble(Double::doubleValue).average().orElse(0.0);
+            double min = list.stream().mapToDouble(Double::doubleValue).min().orElse(0.0);
+            double max = list.stream().mapToDouble(Double::doubleValue).max().orElse(0.0);
 
             climateInfo.append(
                     String.format(
@@ -377,9 +377,9 @@ public class AiService {
 
             List<Double> list = getLast(userSelections.getNumber(), SensorType.HUM);
 
-            double avg = list.stream().mapToDouble(Double::doubleValue).average().orElse(15.0);
-            double min = list.stream().mapToDouble(Double::doubleValue).min().orElse(10.0);
-            double max = list.stream().mapToDouble(Double::doubleValue).max().orElse(20.0);
+            double avg = list.stream().mapToDouble(Double::doubleValue).average().orElse(0.0);
+            double min = list.stream().mapToDouble(Double::doubleValue).min().orElse(0.0);
+            double max = list.stream().mapToDouble(Double::doubleValue).max().orElse(0.0);
 
             climateInfo.append(
                     String.format(
@@ -393,9 +393,9 @@ public class AiService {
 
             List<Double> list = getLast(userSelections.getNumber(), SensorType.SOIL);
 
-            double avg = list.stream().mapToDouble(Double::doubleValue).average().orElse(15.0);
-            double min = list.stream().mapToDouble(Double::doubleValue).min().orElse(10.0);
-            double max = list.stream().mapToDouble(Double::doubleValue).max().orElse(20.0);
+            double avg = list.stream().mapToDouble(Double::doubleValue).average().orElse(0.0);
+            double min = list.stream().mapToDouble(Double::doubleValue).min().orElse(0.0);
+            double max = list.stream().mapToDouble(Double::doubleValue).max().orElse(0.0);
 
             climateInfo.append(
                     String.format(
@@ -409,9 +409,9 @@ public class AiService {
 
             List<Double> list = getLast(userSelections.getNumber(), SensorType.RAIN);
 
-            double avg = list.stream().mapToDouble(Double::doubleValue).average().orElse(10.0);
-            double min = list.stream().mapToDouble(Double::doubleValue).min().orElse(5.0);
-            double max = list.stream().mapToDouble(Double::doubleValue).max().orElse(20.0);
+            double avg = list.stream().mapToDouble(Double::doubleValue).average().orElse(0.0);
+            double min = list.stream().mapToDouble(Double::doubleValue).min().orElse(0.0);
+            double max = list.stream().mapToDouble(Double::doubleValue).max().orElse(0.0);
 
             climateInfo.append(
                     String.format(
